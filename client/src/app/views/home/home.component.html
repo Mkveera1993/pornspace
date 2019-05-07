@@ -1,0 +1,56 @@
+<ngx-spinner
+size = "medium"
+color = "#ee0c0c"
+type = "ball-clip-rotate-pulse"
+>
+<p style="color: #ee0c0c" > Loading... </p>
+</ngx-spinner>
+<section id="team" class="pb-5">
+  <div class="container">
+    <h5 class="section-title h1">Latest Videos</h5>
+    <div class="row">
+      <div
+        class="col-xs-12 col-sm-6 col-md-4"
+        *ngFor="let video of videos"
+        routerLink="/playvideo/{{ video._id }}"
+      >
+        <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+          <div class="mainflip">
+            <div class="frontside">
+              <div class="card">
+                <div class="card-body text-center">
+                  <p>
+                    <img
+                      class=" img-fluid"
+                      src="https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                      alt="card image"
+                    />
+                  </p>
+                  <h4 class="card-title">{{ video.title  | slice: 0:10  }}</h4>
+                  <p class="card-text">{{ video.description | slice: 0:40 }}</p>
+                  <div>
+                    <p class="pull-left">{{ video.length | toMin }} Mins</p>
+                    <p class="pull-right">{{ video.size | toMb }} MB</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ins class="adsbygoogle"
+    style="display:inline-block;width:336px;height:280px"
+    data-ad-client="ca-pub-XXXXXXXXXXX"
+    data-ad-test="on"
+    data-ad-slot="XXXXXXXXXXX"></ins>
+    <div>
+      <li *ngIf="query.page!=1" class="btn btn-primary pull-left" (click)="previous(query.page-1)">Previous</li>
+      <li *ngIf="videos && videos.length==query.limit" class="btn btn-primary pull-right" (click)="next(query.page+1)">Next</li>
+    </div>
+    
+  </div>  
+</section>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});</script>
+

@@ -1,0 +1,85 @@
+<div class="container">
+  <h5 class="section-title h1" *ngIf="video">{{video.title}}</h5>
+  <div class="row">
+    <div class="col-lg-6 col-xs-12 col-sm-6 col-md-6 offset-lg-3"
+      style="margin-top: 50px !important;margin-bottom: 50px  !important;" *ngIf="video">
+      <!-- <mat-video title="My Tutorial Title" [autoplay]="false" [preload]="true" [fullscreen]="true" [download]="false"
+        color="accent" spinner="dot" [overlay]="true" poster="image.jpg">
+        <source matVideoSource src="http://localhost:3000/api/videos/5ca500b15e8821623f27da70" type="video/mp4">
+       
+      </mat-video> -->
+      <vg-player (onPlayerReady)="onPlayerReady($event)">
+          <vg-overlay-play></vg-overlay-play>
+          <vg-buffering></vg-buffering>
+          <vg-scrub-bar [vgSlider]="true">
+              <vg-scrub-bar-current-time [vgSlider]="true"></vg-scrub-bar-current-time>
+              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          </vg-scrub-bar>
+      
+        <vg-controls [vgAutohide]="true" [vgAutohideTime]="5">
+            <vg-play-pause></vg-play-pause>
+            <vg-playback-button></vg-playback-button>
+      
+            <vg-time-display vgProperty="current" vgFormat="hh:mm:ss"></vg-time-display>
+      
+            <!-- <vg-scrub-bar>
+                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+            </vg-scrub-bar> -->
+            <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+            <vg-time-display vgProperty="left" vgFormat="hh:mm:ss"></vg-time-display>
+      
+            <vg-mute></vg-mute>
+            <vg-volume></vg-volume>
+      
+            <vg-fullscreen></vg-fullscreen>
+        </vg-controls>
+      
+        <video #media [vgMedia]="media" id="singleVideo" preload="auto" crossorigin>
+            <source src="http://localhost:3000/api/videos/play/{{video._id}}" type="{{video.meta.mimetype}}">
+        </video>
+     </vg-player>
+      
+    </div>
+  </div>
+  <section id="team" class="pb-5">
+    <div class="container">
+      <h5 class="section-title h1">Related Videos</h5>
+      <div class="row">
+        <div
+          class="col-xs-12 col-sm-6 col-md-4"
+          *ngFor="let video of videos"
+          (click)="playCurrent(video._id)"
+        >
+          <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+            <div class="mainflip">
+              <div class="frontside">
+                <div class="card">
+                  <div class="card-body text-center">
+                    <p>
+                      <img
+                        class=" img-fluid"
+                        src="https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                        alt="card image"
+                      />
+                    </p>
+                    <h4 class="card-title">{{ video.title  | slice: 0:10  }}</h4>
+                    <p class="card-text">{{ video.description | slice: 0:40 }}</p>
+                    <div>
+                      <p class="pull-left">{{ video.length | toMin }} Mins</p>
+                      <p class="pull-right">{{ video.size | toMb }} MB</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <li *ngIf="query.page!=1" class="btn btn-primary pull-left" (click)="previous(query.page-1)">Previous</li>
+        <li *ngIf="videos && videos.length==query.limit" class="btn btn-primary pull-right" (click)="next(query.page+1)">Next</li>
+      </div>
+    </div>  
+  </section>
+</div>
