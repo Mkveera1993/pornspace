@@ -1,27 +1,35 @@
 "use strict";
 var http = require("http");
 var fileConfig = require("../config/fileserver-config");
+var jsftp = require("jsftp");
+
+const Ftp = new jsftp({
+  host: fileConfig.host,
+  port: fileConfig.port,
+  user: fileConfig.user,
+  pass: fileConfig.pass
+});
 
 function readFile() {}
 
 function createFile(file, cb) {
-  console.log(file);
-  var options = {
-    hostname: fileConfig.host,
-    port: fileConfig.port,
-    path: fileConfig.path,
-    method: "POST"
-  };
+  console.log(fileConfig.base_path);
 
-  http
-    .request(options, function(res) {
-      if (res.statusCode !== 200) {
-        return cb({ status: "failure", code: res.statusCode, data: null });
+  Ftp.raw("mkd", fileConfig.base_path, (err, data) => {
+    if (err) {
+      return console.error(err);
+    }
+    console.log(data);
+    Ftp.put(file.buffer, fileConfig.base_path + file.originalname, err => {
+      if (!err) {
+        console.log("File transferred successfully!");
+        return cb({ status: "success", code: 200, data: null });
       } else {
-        return cb({ status: "success", code: res.statusCode, data: null });
+        console.log(err);
+        return cb({ status: "failure", code: 500, data: null });
       }
-    })
-    .end();
+    });
+  });
 }
 
 function listFiles() {}

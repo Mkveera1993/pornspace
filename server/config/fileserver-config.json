@@ -1,6 +1,7 @@
 {
-    "host":"13.127.213.84",
-    "port":22,
-    "username":"pornspace",
-    "password":"pornspace"    
+    "host":"192.168.152.130",
+    "port":21,
+    "user":"vsftp",
+    "pass":"1234",
+    "base_path":"/videos"    
 }
